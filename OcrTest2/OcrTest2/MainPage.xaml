@@ -1,11 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:OcrTest2"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="OcrTest2.MainPage">
-
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-
-</ContentPage>
+    <!-- http://ytabuchi.hatenablog.com/entry/2016/05/30/210000 -->
+    <TabbedPage.Children>
+        <ContentPage Title="画像">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal">
+                    <Button x:Name="selectButton" 
+                            VerticalOptions="Start" Text="OCR したい画像を選択します (￣▽￣)"
+                            Clicked="selectButton_Clicked" />
+                    <Button x:Name="cameraButton" 
+                            VerticalOptions="Start" Text="カメラで"
+                            Clicked="cameraButton_Clicked" />
+                </StackLayout>
+                <Image Grid.Row="2" x:Name="previewImage"></Image>
+            </Grid>
+        </ContentPage>
+        <ContentPage Title="文字ﾀﾞｹ">
+            <Editor x:Name="textOnly"
+                    Text="結果 here" 
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    />
+        </ContentPage>
+        <ContentPage Title="OCR 結果">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ActivityIndicator Grid.Row="1" x:Name="progress" IsVisible="False" />
+                <ScrollView Grid.Row="2">
+                    <skia:SKCanvasView x:Name="uiPanel" PaintSurface="uiPanel_PaintSurface"
+                                       WidthRequest="1000"
+                                       HeightRequest="1000">
+                    </skia:SKCanvasView>
+                </ScrollView>
+            </Grid>
+        </ContentPage>
+        <ContentPage Title="JSON">
+            <Editor x:Name="resultsHere"
+                    Text="結果 here" 
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    />
+        </ContentPage>
+    </TabbedPage.Children>
+</TabbedPage>
